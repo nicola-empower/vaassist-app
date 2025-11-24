@@ -1,26 +1,154 @@
+/* Using Inter font as a clean default */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  /* Brand Primary - Empower Teal */
+  --color-brand-primary: #184E56;
+  --color-brand-primary-hover: #123b41;
+  --color-brand-primary-light: #e0f2f4;
+  --color-brand-primary-dark: #0f2d32;
+
+  /* Brand Secondary - Sage Green */
+  --color-brand-secondary: #6B9A8B;
+  --color-brand-secondary-light: #e1f0eb;
+  --color-brand-secondary-dark: #4a6b61;
+  --color-brand-secondary-hover: #5a8475;
+
+  /* Brand Accent - Soft Lilac */
+  --color-brand-accent: #AA9CC3;
+  --color-brand-accent-light: #f0ecf7;
+  --color-brand-accent-dark: #8a7ca3;
+  --color-brand-accent-hover: #9a8cb3;
+
+  /* Brand Red for errors/warnings */
+  --color-brand-red: #EF4444;
+  --color-brand-red-hover: #DC2626;
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+body {
+  font-family: 'Inter', sans-serif;
+  /* This gradient is key to the "glass" effect */
+  background: linear-gradient(135deg, #f5f7fa 0%, #d8e2ec 100%);
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+  color: var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- Glassmorphism Styles --- */
+.glass-sidebar {
+  background: rgba(255, 255, 255, 0.3);
+  /* Frosted glass effect */
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  /* More opaque for readability */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* The slide-in profile panel */
+.glass-drawer {
+  background: rgba(255, 255, 255, 0.95);
+  /* More opaque for readability */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Generic Modal Styles */
+.modal-content-inner {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar-link {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.7);
+  color: #6D28D9;
+  /* text-brand-lilac-dark */
+}
+
+/* Active indicator bar */
+.sidebar-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60%;
+  width: 4px;
+  background-color: var(--color-brand-primary);
+  border-radius: 0 4px 4px 0;
 }
