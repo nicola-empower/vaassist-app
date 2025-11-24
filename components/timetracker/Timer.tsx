@@ -5,8 +5,11 @@ import { PlayCircle, PauseCircle, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { clientData, ClientId } from '@/lib/data';
 
+// Extended type for timer that includes 'internal'
+type TimerClientId = ClientId | 'internal';
+
 // Mock time tracking data for each client
-const clientTimeData: Record<ClientId, { elapsedThisMonth: number; availableHours: number; project: string }> = {
+const clientTimeData: Record<TimerClientId, { elapsedThisMonth: number; availableHours: number; project: string }> = {
     jane: {
         elapsedThisMonth: 8.5 * 3600, // 8.5 hours in seconds
         availableHours: 20,
@@ -16,6 +19,11 @@ const clientTimeData: Record<ClientId, { elapsedThisMonth: number; availableHour
         elapsedThisMonth: 12.25 * 3600, // 12.25 hours in seconds
         availableHours: 15,
         project: 'Monthly Report'
+    },
+    nicola: {
+        elapsedThisMonth: 3.5 * 3600, // 3.5 hours in seconds
+        availableHours: 25,
+        project: 'Portfolio Development'
     },
     internal: {
         elapsedThisMonth: 5.75 * 3600, // 5.75 hours in seconds
@@ -27,7 +35,7 @@ const clientTimeData: Record<ClientId, { elapsedThisMonth: number; availableHour
 export function Timer() {
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
-    const [selectedClient, setSelectedClient] = useState<ClientId>('jane');
+    const [selectedClient, setSelectedClient] = useState<TimerClientId>('jane');
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -71,7 +79,7 @@ export function Timer() {
                 <select
                     id="client-select"
                     value={selectedClient}
-                    onChange={(e) => setSelectedClient(e.target.value as ClientId)}
+                    onChange={(e) => setSelectedClient(e.target.value as TimerClientId)}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-primary focus:border-brand-primary outline-none text-lg"
                     disabled={isRunning}
                 >
